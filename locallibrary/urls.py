@@ -19,6 +19,9 @@ from django.urls import path, include
 from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.urls import path, include, re_path
+from django.views.static import serve
+from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('catalog.urls')),
@@ -26,6 +29,16 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 
     path('', include('register.urls')),
+
+
+path('admin/', admin.site.urls),
+re_path(r'^media/(?P<path>.*)$', serve, {'document_root':
+settings.MEDIA_ROOT}), #serve media files when deployed
+re_path(r'^static/(?P<path>.*)$', serve, {'document_root':
+settings.STATIC_ROOT}), #serve static files when deployed
+
+
+
 
 
 ]+ static(settings.MEDIA_URL,
